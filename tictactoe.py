@@ -63,7 +63,6 @@ def result(board, action):
         b[action[0]][action[1]] = player(board)
     else:
         print("Move is not valid")
-    print(b)
     return b
 
 
@@ -91,16 +90,15 @@ def terminal(board):
         for y in x:
             j += 1
             if board[i][j] != EMPTY:
-    			game = "over"
+                game = "over"
             else:
                 game = "not over"
     if game == "over" or winner:
-    	return true
+    	return True
     else:
-    	return false
+    	return False
 
 def utility(board):
-    board = [[O,X,O],[O,X,O],[X,O,X]]
     utility = 0
 
     if board[0][0] == board[0][1] == board[0][2] == ("X"):
@@ -135,12 +133,12 @@ def utility(board):
     	utility = -1
     if board[2][0] == board[1][1] == board[0][2] == ("O"):
     	utility = -1
-    print(utility)
 
 
 
-    def minimax(board):
-        EMPTY = None
+
+def minimax(board):
+    EMPTY = None
     X = "X"
     O = "O"
     board = [[EMPTY, EMPTY, EMPTY], [X, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
