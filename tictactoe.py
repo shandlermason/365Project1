@@ -300,7 +300,14 @@ def minimax(board):
         if board[2][2] == None and ((board[2][0] == turn and board[2][1] == EMPTY) or (board[2][0] == EMPTY and board[2][1] == turn) or (board[1][2] == turn and board[0][2] == EMPTY) or (board[1][2] == EMPTY and board[0][2] == turn) or (board[1][1] == turn and board[0][0] == EMPTY) or (board[1][1] == EMPTY and board[0][0] == turn)):
             print("Returning (2,2) to get 2 in a row")
             return (0,2)
-
+        i = -1
+        for x in board:
+         i += 1
+         j = -1
+         for y in x:
+         	j += 1
+         	if board[i][j] == EMPTY:
+         		optimal.add((i,j))
 
     #If you can make 3 in a row, complete it
     #If the opponent can make 3 in a row, stop them
