@@ -23,15 +23,18 @@ def initial_state():
 
 
 def player(board):
+    #Variables for X's and O's
     X_number = 0
     O_number = 0
 
     for x in board:
+    #Checks each space on board for X's and O's
     	for y in x:
     		if y == "X":
     			X_number += 1
     		if y == "O":
     			O_number += 1
+    #Has to be X's turn if X's and O's are equal
     if X_number == O_number:
         return X
     else:
@@ -40,8 +43,10 @@ def player(board):
 
 
 def actions(board):
+ #Initializing set
     moves = {(3,3)}
     i = -1
+ #Checking for empty spaces
     for x in board:
     	i += 1
     	j = -1
@@ -49,12 +54,16 @@ def actions(board):
     		j += 1
     		if board[i][j] == EMPTY:
     			moves.add((i,j))
+    #Removing dummy tuple
     moves.remove((3,3))
     return moves
 
 
 def result(board, action):
+ #Returns board with proper moves
+ #Creating a deep copy of board
     b = copy.deepcopy(board)
+ #Checking if move is valid
     if action == None:
     	print("Error")
     elif board[action[0]][action[1]] == EMPTY:
@@ -66,6 +75,7 @@ def result(board, action):
 
 
 def winner(board):
+#Check if there's a winner
     a = (board[0][0] == board[0][1] == board[0][2] == X)
     b = (board[1][0] == board[1][1] == board[1][2] == X)
     c = (board[2][0] == board[2][1] == board[2][2] == X)
@@ -93,6 +103,7 @@ def winner(board):
 
 
 def terminal(board):
+#Stops game if winner or no spaces
     spaces = 0
     i = -1
     for x in board:
@@ -106,6 +117,7 @@ def terminal(board):
 
 
 def utility(board):
+#Returns utility
     utility = 0
 
     if board[0][0] == board[0][1] == board[0][2] == ("X"):
@@ -140,11 +152,12 @@ def utility(board):
     	utility = -1
     if board[2][0] == board[1][1] == board[0][2] == ("O"):
     	utility = -1
-
+    return utility
 
 
 
 def minimax(board):
+#Makes sure AI returns most optimal move
     optimal = {(3,3)}
     turn = player(board)
     if turn == X:
