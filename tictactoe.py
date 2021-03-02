@@ -28,7 +28,6 @@ def player(board):
 
     for x in board:
     	for y in x:
-    		print(y)
     		if y == "X":
     			X_number += 1
     		if y == "O":
@@ -147,9 +146,15 @@ def utility(board):
 
 def minimax(board):
     optimal = {(3,3)}
+    turn = player(board)
+    if turn == X:
+        opponent = O
+    else:
+        opponent = X
+    move_int = 0
     move = ""
 
-    #Check if this is first or second move
+#Check if this is first or second move
     i = -1
     for x in board:
     	i += 1
@@ -157,12 +162,14 @@ def minimax(board):
     	for y in x:
     		j += 1
     		if board[i][j] != EMPTY:
-    			if move == "Second":
-    				move = "Other"
-    			else:
-    				move = "Second"
-    if move == "":
+    			move_int += 1
+    if move_int == 0:
     	move = "First"
+    elif move_int == 1:
+        move = "Second"
+    elif move_int > 1:
+        move = "Other"
+
 
     if move == "First":
     	optimal.add((0,0))
@@ -177,6 +184,124 @@ def minimax(board):
     		optimal.add((0,2))
     		optimal.add((2,0))
     		optimal.add((2,2))
+    else:
+        #If you can make 3 in a row, complete it
+        #(0,0)
+        if board[0][0] == None and ((board[0][1] == board[0][2] == turn) or (board[1][0] == board[2][0] == turn) or (board[1][1] == board[2][2] == turn)):
+            print("Returning (0,0) to match 3 in a row")
+            return (0,0)
+        #(0,1)
+        if board[0][1] == None and ((board[0][0] == board[0][2] == turn) or (board[1][1] == board[2][1] == turn)):
+            print("Returning (0,1) to match 3 in a row")
+            return (0,1)
+      #(0,2)
+        if board[0][2] == None and ((board[0][0] == board[0][1] == turn) or (board[1][1] == board[2][0] == turn) or (board[1][2] == board[2][2] == turn)):
+            print("Returning (0,2) to match 3 in a row")
+            return (0,2)
+        #(1,0)
+        if board[1][0] == None and ((board[0][0] == board[2][0] == turn) or (board[1][1] == board[1][2] == turn)):
+            print("Returning (1,0) to match 3 in a row")
+            return (1,0)
+        #(1,1)
+        if board[1][1] == None and ((board[0][0] == board[2][2] == turn) or (board[0][2] == board[2][0] == turn) or (board[1][0] == board[1][2] == turn) or (board[0][1] == board[2][1] == turn)):
+            print("Returning (1,1) to match 3 in a row")
+            return (1,1)
+        #(1,2)
+        if board[1][2] == None and ((board[1][0] == board[1][1] == turn) or (board[0][2] == board[2][2] == turn)):
+            print("Returning (1,2) to match 3 in a row")
+            return (1,2)
+        #(2,0)
+        if board[2][0] == None and ((board[2][1] == board[2][2] == turn) or (board[1][0] == board[0][0] == turn) or (board[1][1] == board[0][2] == turn)):
+            print("Returning (2,0) to match 3 in a row")
+            return (2,0)
+        #(2,1)
+        if board[2][1] == None and ((board[2][0] == board[2][2] == turn) or (board[1][1] == board[0][1] == turn)):
+            print("Returning (2,1) to match 3 in a row")
+            return (2,1)
+        #(2,2)
+        if board[2][2] == None and ((board[2][0] == board[2][1] == turn) or (board[1][1] == board[0][0] == turn) or (board[1][2] == board[0][2] == turn)):
+            print("Returning (2,2) to match 3 in a row")
+            return (2,2)
+
+
+        #If the opponent can make 3 in a row, stop them
+        #(0,0)
+        if board[0][0] == None and ((board[0][1] == board[0][2] == opponent) or (board[1][0] == board[2][0] == opponent) or (board[1][1] == board[2][2] == opponent)):
+            print("Returning (0,0) to block opponent")
+            return (0,0)
+        #(0,1)
+        if board[0][1] == None and ((board[0][0] == board[0][2] == opponent) or (board[1][1] == board[2][1] == opponent)):
+            print("Returning (0,1) to block opponent")
+            return (0,1)
+      #(0,2)
+        if board[0][2] == None and ((board[0][0] == board[0][1] == opponent) or (board[1][1] == board[2][0] == opponent) or (board[1][2] == board[2][2] == opponent)):
+            print("Returning (0,2) to block opponent")
+            return (0,2)
+        #(1,0)
+        if board[1][0] == None and ((board[0][0] == board[2][0] == opponent) or (board[1][1] == board[1][2] == opponent)):
+            print("Returning (1,0) to block opponent")
+            return (1,0)
+        #(1,1)
+        if board[1][1] == None and ((board[0][0] == board[2][2] == opponent) or (board[0][2] == board[2][0] == opponent) or (board[1][0] == board[1][2] == opponent) or (board[0][1] == board[2][1] == opponent)):
+            print("Returning (1,1) to block opponent")
+            return (1,1)
+        #(1,2)
+        if board[1][2] == None and ((board[1][0] == board[1][1] == opponent) or (board[0][2] == board[2][2] == opponent)):
+            print("Returning (1,2) to block opponent")
+            return (1,2)
+        #(2,0)
+        if board[2][0] == None and ((board[2][1] == board[2][2] == opponent) or (board[1][0] == board[0][0] == opponent) or (board[1][1] == board[0][2] == opponent)):
+            print("Returning (2,0) to block opponent")
+            return (2,0)
+        #(2,1)
+        if board[2][1] == None and ((board[2][0] == board[2][2] == opponent) or (board[1][1] == board[0][1] == opponent)):
+            print("Returning (2,1) to block opponent")
+            return (2,1)
+        #(2,2)
+        if board[2][2] == None and ((board[2][0] == board[2][1] == opponent) or (board[1][1] == board[0][0] == opponent) or (board[1][2] == board[0][2] == opponent)):
+            print("Returning (2,2) to block opponent")
+            return (2,2)
+
+
+#If you can make 2 in a row, do it
+        #(0,0)
+        if board[0][0] == None and ((board[0][1] == turn and board[0][2] == EMPTY) or (board[0][1] == EMPTY and board[0][2] == turn) or (board[1][0] == turn and board[2][0] == EMPTY) or (board[1][0] == EMPTY and board[2][0] == turn) or (board[1][1] == turn and board[2][2] == EMPTY) or (board[1][1] == EMPTY and board[2][2] == turn)):
+            print("Returning (0,0) to get 2 in a row")
+            return (0,0)
+        #(0,1)
+        if board[0][1] == None and ((board[0][0] == turn and board[0][2] == EMPTY) or (board[0][0] == EMPTY and board[0][2] == turn) or (board[1][1] == turn and board[2][1] == EMPTY) or (board[1][1] == EMPTY and board[2][1] == turn)):
+            print("Returning (0,1) to get 2 in a row")
+            return (0,1)
+        #(0,2)
+        if board[0][2] == None and ((board[0][0] == turn and board[0][1] == EMPTY) or (board[0][0] == EMPTY and board[0][1] == turn) or (board[1][2] == turn and board[2][2] == EMPTY) or (board[1][2] == EMPTY and board[2][2] == turn) or (board[1][1] == turn and board[2][0] == EMPTY) or (board[1][1] == EMPTY and board[2][0] == turn)):
+            print("Returning (0,2) to get 2 in a row")
+            return (0,2)
+        #(1,0)
+        if board[1][0] == None and ((board[0][0] == turn and board[2][0] == EMPTY) or (board[0][0] == EMPTY and board[2][0] == turn) or (board[1][1] == turn and board[1][2] == EMPTY) or (board[1][1] == EMPTY and board[1][2] == turn)):
+            print("Returning (1,0) to get 2 in a row")
+            return (1,0)
+        #(1,1)
+        if board[1][1] == None and ((board[0][0] == turn and board[2][2] == EMPTY) or (board[0][0] == EMPTY and board[2][2] == turn) or (board[0][2] == turn and board[2][0] == EMPTY) or (board[0][2] == EMPTY and board[2][0] == turn) or (board[1][0] == turn and board[1][2] == EMPTY) or (board[1][0] == EMPTY and board[1][2] == turn) or (board[0][1] == turn and board[2][1] == EMPTY) or (board[0][1] == EMPTY and board[2][1] == turn)):
+            print("Returning (1,1) to get 2 in a row")
+            return (1,1)
+        #(1,2)
+        if board[1][2] == None and ((board[0][2] == turn and board[2][2] == EMPTY) or (board[0][2] == EMPTY and board[2][2] == turn) or (board[1][1] == turn and board[1][0] == EMPTY) or (board[1][1] == EMPTY and board[1][0] == turn)):
+            print("Returning (1,2) to get 2 in a row")
+            return (1,2)
+        #(2,0)
+        if board[2][0] == None and ((board[2][1] == turn and board[2][2] == EMPTY) or (board[0][1] == EMPTY and board[0][0] == turn) or (board[1][0] == turn and board[0][0] == EMPTY) or (board[1][0] == EMPTY and board[0][0] == turn) or (board[1][1] == turn and board[0][2] == EMPTY) or (board[1][1] == EMPTY and board[0][2] == turn)):
+            print("Returning (2,0) to get 2 in a row")
+            return (2,0)
+        #(2,1)
+        if board[2][1] == None and ((board[2][0] == turn and board[2][2] == EMPTY) or (board[2][0] == EMPTY and board[2][2] == turn) or (board[0][1] == turn and board[1][1] == EMPTY) or (board[0][1] == EMPTY and board[1][1] == turn)):
+            print("Returning (2,1) to get 2 in a row")
+            return (2,1)
+        #(0,2)
+        if board[2][2] == None and ((board[2][0] == turn and board[2][1] == EMPTY) or (board[2][0] == EMPTY and board[2][1] == turn) or (board[1][2] == turn and board[0][2] == EMPTY) or (board[1][2] == EMPTY and board[0][2] == turn) or (board[1][1] == turn and board[0][0] == EMPTY) or (board[1][1] == EMPTY and board[0][0] == turn)):
+            print("Returning (2,2) to get 2 in a row")
+            return (0,2)
+
+
     #If you can make 3 in a row, complete it
     #If the opponent can make 3 in a row, stop them
     #If you can make 2 in a row, do it
