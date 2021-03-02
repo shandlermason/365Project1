@@ -3,6 +3,8 @@ Tic Tac Toe Player
 """
 
 import math
+import copy
+import random
 
 X = "X"
 O = "O"
@@ -10,7 +12,6 @@ EMPTY = None
 board = [[EMPTY, EMPTY, EMPTY],
         [EMPTY, EMPTY, EMPTY],
         [EMPTY, EMPTY, EMPTY]]
-print(board)
 
 def initial_state():
     """
@@ -32,8 +33,6 @@ def player(board):
     			X_number += 1
     		if y == "O":
     			O_number += 1
-    print(X_number,"Xs")
-    print(O_number,"Os")
     if X_number == O_number:
         return X
     else:
@@ -68,35 +67,44 @@ def result(board, action):
 
 
 def winner(board):
-    a = (board[0][0] == board[0][1] == board[0][2] == ("X" or "O"))
-    b = (board[1][0] == board[1][1] == board[1][2] == ("X" or "O"))
-    c = (board[2][0] == board[2][1] == board[2][2] == ("X" or "O"))
-    d = (board[0][0] == board[1][0] == board[2][0] == ("X" or "O"))
-    e = (board[0][1] == board[1][1] == board[2][1] == ("X" or "O"))
-    f = (board[0][2] == board[1][2] == board[2][2] == ("X" or "O"))
-    g = (board[0][0] == board[1][1] == board[2][2] == ("X" or "O"))
-    h = (board[2][0] == board[1][1] == board[0][2] == ("X" or "O"))
+    a = (board[0][0] == board[0][1] == board[0][2] == X)
+    b = (board[1][0] == board[1][1] == board[1][2] == X)
+    c = (board[2][0] == board[2][1] == board[2][2] == X)
+    d = (board[0][0] == board[1][0] == board[2][0] == X)
+    e = (board[0][1] == board[1][1] == board[2][1] == X)
+    f = (board[0][2] == board[1][2] == board[2][2] == X)
+    g = (board[0][0] == board[1][1] == board[2][2] == X)
+    h = (board[2][0] == board[1][1] == board[0][2] == X)
+    i = (board[0][0] == board[0][1] == board[0][2] == O)
+    j = (board[1][0] == board[1][1] == board[1][2] == O)
+    k = (board[2][0] == board[2][1] == board[2][2] == O)
+    l = (board[0][0] == board[1][0] == board[2][0] == O)
+    m = (board[0][1] == board[1][1] == board[2][1] == O)
+    n = (board[0][2] == board[1][2] == board[2][2] == O)
+    o = (board[0][0] == board[1][1] == board[2][2] == O)
+    p = (board[2][0] == board[1][1] == board[0][2] == O)
 
-    return a or b or c or d or e or f or g or h
+    if a or b or c or d or e or f or g or h:
+    	return X
+    elif i or j or k or l or m or n or o or p:
+    	return O
+    else:
+    	return None
 
 
 
 def terminal(board):
-    game = ""
+    spaces = 0
     i = -1
     for x in board:
-        i += 1
-        j = -1
-        for y in x:
-            j += 1
-            if board[i][j] != EMPTY:
-                game = "over"
-            else:
-                game = "not over"
-    if game == "over" or winner:
-    	return True
-    else:
-    	return False
+    	i += 1
+    	j = -1
+    	for y in x:
+    		j += 1
+    		if board[i][j] != EMPTY:
+    			spaces += 1
+    return spaces == 9 or winner(board) != None
+
 
 def utility(board):
     utility = 0
@@ -138,11 +146,6 @@ def utility(board):
 
 
 def minimax(board):
-    EMPTY = None
-    X = "X"
-    O = "O"
-    board = [[EMPTY, EMPTY, EMPTY], [X, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]]
-
     optimal = {(3,3)}
     move = ""
 
@@ -179,5 +182,6 @@ def minimax(board):
     #If you can make 2 in a row, do it
 
     optimal.remove((3,3))
+    return random.choice(tuple(optimal))
     #print(optimal)
     #print(random.choice(tuple(optimal)))
